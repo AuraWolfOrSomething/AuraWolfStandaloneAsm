@@ -10,6 +10,7 @@
  .short 0xf800
 .endm
 
+.equ ItemTablePointer, 0x080177C0
 
 pop    {r3}
 push   {r4-r7,r14}
@@ -46,7 +47,8 @@ mov    r2,#0xFF
 and    r5,r2//r5 has item id
 mov    r4,#0x24
 mul    r4,r5
-ldr    r3,=#0x8809B10//item table
+ldr    r3,=ItemTablePointer
+ldr    r3,[r3]
 mov    r2,#0x1D//item icon offset
 add    r3,r2
 ldrb   r0,[r4,r3]
@@ -58,7 +60,8 @@ add    r2,r6
 ldrb   r1,[r7,r2] 
 mov    r4,#0x24
 mul    r4,r1
-ldr    r3,=#0x8809B10//item table
+ldr    r3,=ItemTablePointer
+ldr    r3,[r3]
 mov    r2,#0x1D//item icon offset
 add    r3,r2
 ldrb   r1,[r4,r3]//protected item icon

@@ -48,7 +48,7 @@
 			ldr		r0, [r5,#0x2C]
 			ldr		r1, =CouponInfoLink
 			ldrb	r1, [r1]
-			blh		RemoveItem, r2
+			blh		RemoveItemFromUnit, r2
 		
 			UnsetCouponQuestionBit:
 			mov		r0, #0

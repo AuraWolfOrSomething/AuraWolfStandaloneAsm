@@ -145,4 +145,3 @@ BuyItemConvoy:
 ALIGN 4
 ItemClearer:
 #incbin "ItemClearer.dmp"
-

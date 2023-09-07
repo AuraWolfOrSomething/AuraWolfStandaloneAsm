@@ -20,7 +20,7 @@
 				ldr		r0, [r4,#0x2C]
 				ldr		r1, =CouponInfoLink
 				ldrb	r1, [r1]
-				blh		RemoveItem, r2
+				blh		RemoveItemFromUnit, r2
 				
 				mov		r1, #0x5C
 				ldrb	r1, [r4,r1]

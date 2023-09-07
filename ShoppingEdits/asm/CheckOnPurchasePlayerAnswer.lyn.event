@@ -17,7 +17,7 @@ BYTE $0 $F8
 SHORT $BC10 $BC01 $4700 $46C0
 BYTE $0 $8A $0 $8
 POIN CouponInfoLink
-POIN RemoveItem
+POIN RemoveItemFromUnit
 BYTE $50 $37 $0 $3 $48 $79 $1 $8
 POIN AfterPurchase
 BYTE $24 $2F $0 $8

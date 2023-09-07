@@ -21,10 +21,12 @@ Optional Modifications
 #include "ShoppingEditsText.event"
 ALIGN 4
 
-//Include RemoveItem routine if not already included
-#ifndef RemoveItem
-	#include "RemoveItem/RemoveItem.lyn.event"
+//Include RemoveItemFromUnit routine if not already included
+#ifndef RemoveItemFromUnit
+	#include "RemoveItemFromUnit/RemoveItemFromUnit.lyn.event"
 	ALIGN 4
+#else
+	MESSAGE "RemoveItemFromUnit" is already defined (it may or may not be the assembly ShoppingEdits needs)
 #endif
 
 //Price modifying lists and values
