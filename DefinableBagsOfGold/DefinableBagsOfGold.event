@@ -1,0 +1,61 @@
+
+/*
+Definable Bags of Gold
+This assembly changes hardcoding that checks when an item is obtained from stealing and from an enemy dropping it. Instead of checking for ids written directly in the code, it will read off of a shared list of item ids. As long as the acquired item isn't on the list, the unit will actually receive that item.
+
+Optional Modification:
+HALVE_BAG_OF_GOLD_COST: In vanilla, once the bag of gold is "found", 100% of its item cost is used for calculating how much gold the player gets. A bag of 3000 gold that was stolen or dropped by an enemy will directly give the player 3000 gold. If a player unit somehow had that same bag of 3000 gold and went to a shop, it would sell for 1500 gold. If you need all 3 of these values to match and aren't already using assembly that can change how selling is calculated, you can make them match by uncommenting the definition on line 15 ("#define HALVE_BAG_OF_GOLD_COST"). Afterwards, you'll also need to make sure each bag of gold has its item cost be name*2 in your item editor. Using the 3000 gold example again, that particular bag would need an item cost of 6000.
+*/
+
+#include EAstdlib.event
+#include "Extensions/Hack Installation.txt"
+
+//#define HALVE_BAG_OF_GOLD_COST
+
+BagsOfGoldList:
+BYTE _1G _5G _10G _50G _100G _3000G _5000G _150G _200G
+
+//end of list
+BYTE 0
+ALIGN 4
+
+PUSH
+
+ORG 0x115A4
+SHORT 0x0C08 0x22FF //lsr r0, r1, #0x10; mov r2, #0xFF
+SHORT 0x4002 0x4B07 //and r2, r0; ldr r3, =BagsOfGoldList
+SHORT 0x7819 0x2900 //ldrb r1, [r3]; cmp r1, #0
+SHORT 0xD00C 0x3301 //beq (0x115CC); add r3, #1
+SHORT 0x428A 0xD1F9 //cmp r2, r1; bne (0x115AC)
+BL(0x1763C) //GetItemCost
+#ifdef HALVE_BAG_OF_GOLD_COST
+	SHORT 0x0842 //lsr r2, r0, #1
+#else
+	SHORT 0x1C02 //mov r2, r0
+#endif
+SHORT 0x1C20 0x1C29 //mov r0, r4; mov r1, r5
+BL(0x11644) //NewGoldGotPopup
+SHORT 0xE005 //b (0x115D4)
+POIN BagsOfGoldList
+PROTECT 0x115A4 CURRENTOFFSET-1
+
+ORG 0x324CC
+SHORT 0x4030 0x4B08 //mov r0, #0xFF; ldr r3, =BagsOfGoldList
+SHORT 0x7819 0x2900 //ldrb r1, [r3]; cmp r1, #0
+SHORT 0xD012 0x3301 //beq (0x324FC); add r3, #1
+SHORT 0x4288 0xD1F9 //cmp r0, r1; bne (0x324D0)
+SHORT 0x1C30 //mov r0, r6
+BL(0x1763C) //GetItemCost
+#ifdef HALVE_BAG_OF_GOLD_COST
+	SHORT 0x0844 //lsr r4, r0, #1
+#else
+	SHORT 0x1C04 //mov r4, r0
+#endif
+BL(0x24DE8) //GetPartyGoldAmount
+SHORT 0x1900 //add r0, r4
+BL(0x24E04) //SetPartyGoldAmount
+SHORT 0xE00C // b (0x3250A)
+POIN BagsOfGoldList
+PROTECT 0x324CC CURRENTOFFSET-1
+
+POP
