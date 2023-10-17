@@ -6,6 +6,8 @@ This assembly changes the behavior of pressing "L" on a unit on the map. In vani
 The only thing you should need to do with this assembly is install it (unless you want/need to edit the source code for whatever reason). In the commented section below, the code is written so that you can directly dump this via a hex editor, but make sure to follow the instructions carefully.
 */
 
+#include EAstdlib.event
+#include "Extensions/Hack Installation.txt"
 
 #ifndef gProc_PrepScreen
   #define gProc_PrepScreen 0x0859DBBC
