@@ -13,6 +13,9 @@ Optional Modifications
 - Coupon functionality: Lower next purchase's price by a set percentage, then disappear from the unit's inventory. If a unit has a full inventory, but a coupon would be removed due to the purchase, the shopkeeper will ask the player if they want the purchased item with the unit before asking to send to convoy. To see the coupon functionality without having the actual item in your hack, IronSword will function as a Coupon if Coupon is not defined.
 */
 
+#include EAstdlib.event
+#include "Extensions/Hack Installation.txt"
+
 #define USE_SHOPPING_EDITS_TEXT
 
 #define USE_BARGAINS
