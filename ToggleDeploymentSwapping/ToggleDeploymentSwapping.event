@@ -6,6 +6,9 @@ In vanilla, units that are forced deployed can't change their starting position.
 There's also an additional condition you can add; you can "assign" units to different groups of units that are allowed to swap with each other, but not other groups. Look at Example.event to look at setting this up.
 */
 
+#include EAstdlib.event
+#include "Extensions/Hack Installation.txt"
+
 #define LockedPosition 0
 #define UnlockedPosition 1
 #define ForcedDeployment(char,lockedPosition,mode,chapter) "BYTE char lockedPosition mode chapter"
