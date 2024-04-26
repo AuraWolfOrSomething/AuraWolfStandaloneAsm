@@ -1,0 +1,56 @@
+
+#ifdef MINIMUM_DEPLOYMENT_TEXT
+	
+	#ifndef setText 
+		#define setText(textID, offset) "PUSH; ORG (TextTable+4*textID); POIN (offset | 0x80000000); POP" 
+	#endif
+	
+	#ifdef MINIMUM_DEPLOYMENT_PREP_UNIT_SELECT_HEADER
+		
+		#define MinDeployHeader 0x05A1
+		#define CurrentDeployHeader 0x05A2
+		
+		setText(MinDeployHeader,MinDeployHeaderText)
+		setText(CurrentDeployHeader,CurrentDeployHeaderText)
+		
+		MinDeployHeaderText:
+		String("Min.")
+		BYTE 0 //[X]
+		
+		CurrentDeployHeaderText:
+		String("Current")
+		BYTE 0 //[X]
+		
+		ALIGN 4
+		
+	#endif
+	
+	#ifdef MINIMUM_DEPLOYMENT_UNDEPLOY_ERROR_MESSAGE
+	
+		#define MinDeployUndeployDeny 0x0F39
+		
+		setText(MinDeployUndeployDeny,MinDeployUndeployDenyText)
+		
+		MinDeployUndeployDenyText:
+		String("Unit deploy count cannot")
+		BYTE 1 //[N]
+		String("drop below the minimum.")
+		BYTE 0 //[X]
+		
+		ALIGN 4
+	
+	#endif
+	
+#endif
+
+/*
+## MinDeployHeader
+Min.[X]
+
+## CurrentDeployHeader
+Current[X]
+
+## MinDeployUndeployDeny
+Unit deploy count cannot[N]
+drop below the minimum.[X]
+*/

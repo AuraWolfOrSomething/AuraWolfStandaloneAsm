@@ -1,0 +1,114 @@
+
+/*
+Minimum Deployment
+This allows a minimum deployment count to be set on a chapter-by-chapter basis. If the player tries to undeploy units below a chapter's set amount, the game won't allow them to.
+
+Optional Modifications
+MINIMUM_DEPLOYMENT_PREP_UNIT_SELECT_HEADER: This changes the text above the unit list from "Pick [max-current] Units Left [current]/[max]" to "Min. [min] Current [current]/[max]".
+
+MINIMUM_DEPLOYMENT_UNDEPLOY_ERROR_MESSAGE: If undeploying the currently selected unit would drop the deploy count below the minimum, text will appear to explain why the command didn't go through.
+*/
+
+#include EAstdlib.event
+#include "Extensions/Hack Installation.txt"
+
+#define MINIMUM_DEPLOYMENT_TEXT
+
+#define MINIMUM_DEPLOYMENT_PREP_UNIT_SELECT_HEADER
+#define MINIMUM_DEPLOYMENT_UNDEPLOY_ERROR_MESSAGE
+
+#include "MinimumDeploymentText.event"
+
+UndeployMinDenySoundLink:
+BYTE 0x6C
+ALIGN 4
+
+MinimumDeploymentAmountTable: //indexed by chapter id
+//Minimums of 0 will turn into 1
+
+//0x00 - 0x0F
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+
+//0x10 - 0x1F
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+
+//0x20 - 0x2F
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+
+//0x30 - 0x3F
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+
+//0x40 - 0x4F
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+BYTE 0 0 0 0
+
+ALIGN 4
+
+
+
+//-------------------------------------------
+//WIZARD CHECKPOINT
+//Do not touch anything below unless you know what you're doing
+//-------------------------------------------
+
+
+
+PUSH
+
+ORG 0x9AC40
+jumpToHack(CanUnitBeUndeployed)
+
+#ifdef MINIMUM_DEPLOYMENT_PREP_UNIT_SELECT_HEADER
+
+	ORG 0x9AB2E
+	BYTE 0x34
+	
+	ORG 0x9AB4C
+	SHORT 0x4803 0x4686 //ldr r0, =GetChapterMinimumDeployment; mov lr, r0
+	SHORT 0xF800 0x1C02 //bl lr+0; mov r2, r0
+	SHORT 0x1C18 0x2102 //mov r0, r3; mov r1, #2
+	SHORT 0xE002 0 //b 0x9AB60; lsl r0, #0
+	POIN GetChapterMinimumDeployment
+	PROTECT 0x9AB2E CURRENTOFFSET-1
+
+	ORG 0x9ABC0
+	WORD MinDeployHeader
+	
+	ORG 0x9ABC8
+	WORD CurrentDeployHeader
+	PROTECT 0x9ABC0 CURRENTOFFSET-1
+
+#endif
+
+POP
+
+#include "asm/GetChapterMinimumDeployment.lyn.event"
+ALIGN 4
+
+#ifdef MINIMUM_DEPLOYMENT_UNDEPLOY_ERROR_MESSAGE
+
+	#include "asm/CanUnitBeUndeployed.lyn.event"
+	MinDeployUndeployDenyTextLink:
+	SHORT MinDeployUndeployDeny
+	
+#else
+
+	#include "asm/CanUnitBeUndeployed_NoErrorMessage.lyn.event"
+	
+#endif
+
+ALIGN 4
