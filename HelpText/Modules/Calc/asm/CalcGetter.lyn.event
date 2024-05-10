@@ -1,0 +1,8 @@
+ALIGN 4
+PUSH
+ORG CURRENTOFFSET+$1;CalcGetter:
+POP
+SHORT $4906 $8809 $4A06 $6812 $8011 $4906 $6AC2 $8A52 $52 $1889 $8809 $224C $5281 $4770
+POIN CalcHelpTextLink
+POIN HelpTextExtraInfoRAMLocation
+POIN CalcDescriptionTextLink
