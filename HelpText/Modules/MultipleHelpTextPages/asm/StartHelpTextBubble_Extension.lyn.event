@@ -1,0 +1,6 @@
+ALIGN 4
+PUSH
+ORG CURRENTOFFSET+$1;StartHelpTextBubble_Extension:
+POP
+SHORT $4802 $6800 $6001 $BC10 $BC01 $4700
+POIN HelpTextExtraInfoRAMLocation
