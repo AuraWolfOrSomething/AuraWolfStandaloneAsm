@@ -403,7 +403,7 @@
   ALIGN 4
   RText_Page3:
 
-//USE_HELP_TEXT_WEAPON_RANK: The process depends on if ONLY_SHOW_USED_RANKS is defined or not. Make sure you're reading the section that's actually used in your MSS setup.
+//USE_HELP_TEXT_WEAPON_RANK: The process depends on if ONLY_SHOW_USED_RANKS is defined or not. If you're using DISPLAY_ALL_8_RANKS, refer to RText_8RankDisplay.event. Make sure you're reading the section that's actually used in your MSS setup.
 
 #ifndef ONLY_SHOW_USED_RANKS
   
