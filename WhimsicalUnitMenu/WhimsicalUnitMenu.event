@@ -1,0 +1,61 @@
+#include EAstdlib.event
+#include "Extensions/Hack Installation.txt"
+
+WhimsicalUnitMenuFrameCounterLink:
+WORD 0x03003750
+
+RandomMenuCommandStorageLink:
+WORD 0x02026E30
+
+WhimsicalFramePointers:
+BYTE 33 18 //Easy EasyFastSpeed
+BYTE 23 13 //Normal NormalFastSpeed
+BYTE 13 8 //Hard HardFastSpeed
+ALIGN 4
+
+WhimsicalFailPointers:
+BYTE 3 4 5 //Easy Normal Hard
+ALIGN 4
+
+MenuDependentMenuInputList:
+//WORD/POIN Menu
+//POIN HandleDirectionInputs
+//POIN HandleSelectInputs
+
+POIN 0x59D1F0 //gMenu_UnitMenu
+POIN WhimsicalUnitMenuDirectionInputs
+POIN WhimsicalUnitMenuSelectInputs
+
+//End of list
+WORD 0
+
+PUSH
+
+ORG 0x4ED80
+SHORT 0x4801 0x4686 //ldr r0, StartMenuExt_MenuCommandLoop; mov lr, r0
+SHORT 0xF800 0xE044 //bl lr+0; b 0x4EE12
+POIN StartMenuExt_MenuCommandLoop
+PROTECT 0x4ED80 0x4EE12
+
+ORG 0x4F294
+jumpToHack(NewMenu_HandleDirectionInputs)
+
+ORG 0x4F374
+jumpToHack(NewMenu_HandleSelectInputs)
+
+POP
+
+#include "asm/GetSaveFileDifficulty.lyn.event"
+ALIGN 4
+
+#include "asm/CountMenuCommands.lyn.event"
+ALIGN 4
+
+#include "asm/StartMenuExt_MenuCommandLoop.lyn.event"
+ALIGN 4
+
+#include "asm/MenuHandleInputs.lyn.event"
+ALIGN 4
+
+#include "asm/WhimsicalUnitMenu.lyn.event"
+ALIGN 4
