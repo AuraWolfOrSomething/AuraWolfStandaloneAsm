@@ -1,0 +1,31 @@
+
+/*
+Unit Menu Update Warning Cache
+Whenever the unit menu is started, the game will now update the Warning Cache made by HpBars. For example, talking with an ally will now remove the talk bubble over that ally (unless it is a repeatable event).
+*/
+
+#include EAstdlib.event
+#include "Extensions/Hack Installation.txt"
+
+#define WarningCacheLocation 0x0203AE00 //default ram location for FE8 version
+
+
+
+//-------------------------------------------
+//WIZARD CHECKPOINT
+//Do not touch anything below unless you know what you're doing
+//-------------------------------------------
+
+
+PUSH
+
+ORG 0x4F64C
+jumpToHack(NewStartMenu_AndDoSomethingCommands)
+
+POP
+
+WarningCacheLink:
+WORD WarningCacheLocation
+
+#include "asm/NewStartMenu_AndDoSomethingCommands.lyn.event"
+ALIGN 4
