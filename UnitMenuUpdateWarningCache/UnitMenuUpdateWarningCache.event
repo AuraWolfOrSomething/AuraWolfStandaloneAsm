@@ -17,10 +17,13 @@ Whenever the unit menu is started, the game will now update the Warning Cache ma
 //-------------------------------------------
 
 
+
 PUSH
 
 ORG 0x4F64C
-jumpToHack(NewStartMenu_AndDoSomethingCommands)
+#include "asm/Hook.lyn.event"
+ALIGN 4
+PROTECT 0x4F64C CURRENTOFFSET-1
 
 POP
 
