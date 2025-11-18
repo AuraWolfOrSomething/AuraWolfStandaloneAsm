@@ -29,12 +29,12 @@ WarpRangeListEnd
 
 	#ifdef USE_STRMAG_SPLIT
 	
-		#include "asmExamples/GetHalfMagPlusStaffSavantRange_Split.lyn.event"
+		#include "asm/GetHalfMagPlusStaffSavantRange_Split.lyn.event"
 		ALIGN 4
 		
 	#else
 	
-		#include "asmExamples/GetHalfMagPlusStaffSavantRange.lyn.event"
+		#include "asm/GetHalfMagPlusStaffSavantRange.lyn.event"
 		ALIGN 4
 
 	#endif
